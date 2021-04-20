@@ -18,15 +18,65 @@
   </form>
   <script>
     const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
-    let locationData = [];
 
-    fetch(endpoint)
-      .then(function (blob) {
-        return blob.json();
-      }).then(function (data) {
-        
-      });
+    const cities = [];
+    fetch(endpoint)//抓取資料 但沒有屬性
+      .then(blob => blob.json())
+      //從資料抓取資料屬性（json）
+      .then(data => cities.push(...data))
 
+    function findMatches(wordToMatch, cities) {
+      //使用filter過濾需要的元素
+      return cities.filter(place => {
+        //將要搜尋的值設為變數 g=global（整個單字的意思） i表示不分大小寫
+        const regex = new RegExp(wordToMatch, 'gi')
+        //回傳符合要素的city或state
+
+        return place.city.match(regex) || place.state.match(regex)
+      })
+
+    };
+    //替回傳的人口數字加上逗點（每三位數）
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    function displayMatches() {
+
+      //讀取輸入的值 回傳到findMatches函數
+      //this.value 代表輸入的值
+      //先清除suggestions內容
+      suggestions.innerHTML = ''
+      //將輸入的搜尋結果設成一個常數
+      const regex = new RegExp(this.value, 'gi')
+
+      const matchArray = findMatches(this.value, cities);
+      if (matchArray.length == 0) {
+        suggestions.innerHTML += `<li>
+          <span>nothing is here!</span></li>`
+          
+      } 
+      else {
+        matchArray.forEach(element => {
+          //將輸入的搜尋結果反白 加回到原本的element.city裡面 做為新的Cityname
+          const cityName = element.city.replace(regex, `<span class='hl'>${this.value}</span>`)
+          const stateName = element.state.replace(regex, `<span class='hl'>${this.value}</span>`)
+
+          suggestions.innerHTML += `<li>
+          <span>${cityName}, ${stateName}</span>
+          <span>${numberWithCommas(element.population)}</span>
+          </li>`
+
+
+        }
+      )};
+
+    }
+
+    const search_input = document.querySelector('.search')
+    const suggestions = document.querySelector('.suggestions')
+
+    search_input.addEventListener('input', displayMatches)
+    search_input.addEventListener('keyup', displayMatches)
 
   </script>
 </body>
