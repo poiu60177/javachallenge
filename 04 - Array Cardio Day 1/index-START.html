@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Array Cardio 💪</title>
 </head>
+
 <body>
   <p><em>Psst: have a look at the JavaScript Console</em> 💁</p>
   <script>
@@ -34,20 +36,51 @@
       'Berne, Eric', 'Berra, Yogi', 'Berry, Wendell', 'Bevan, Aneurin', 'Ben-Gurion, David', 'Bevel, Ken', 'Biden, Joseph', 'Bennington, Chester', 'Bierce, Ambrose',
       'Billings, Josh', 'Birrell, Augustine', 'Blair, Tony', 'Beecher, Henry', 'Biondo, Frank'
     ];
-    
+
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    var filter_1 = inventors.filter(function (element) {
+      return element.year >= 1500 && element.year < 1600;
+    });
+
+    // console.log(filter_1);
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+    var map_1 = inventors.map(function (element) {
+      return (element.first + ' ' + element.last)
+    });
+
+    // console.log(map_1);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    var sort_1 = inventors.sort(function (a, b) {
+      //數字才可以直接用減號
+      return a.year - b.year;
+    })
+    // console.table(sort_1)
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
+    let reduce_1 = inventors.reduce(function (accumulator, element) {
+      // console.log(accumulator);
+      return accumulator + (element.passed - element.year)
+
+    }, 0)
+    // console.log(reduce_1);
+
+    //array.reduce(function(accumulator, currentValue, currentIndex, array){},initial Value)
+    // accumulator:累加器，為前次函式所回傳的先前值或者是初始值。
+    // currentValue:目前處理元素的值。
+    // currentIndex:目前處理元素的索引值。有給定初始值，由0開始，無初始值則由1開始。
+    // initial Value :初始值。
 
     // 5. Sort the inventors by years lived
+    var sort_2 = inventors.sort(function (a, b) {
+      return (a.passed - a.year) > (b.passed - b.year) ? 1 : -1;
+    })
+    // console.table(sort_2)
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
@@ -56,10 +89,56 @@
     // 7. sort Exercise
     // Sort the people alphabetically by last name
 
+    let newPeopleArray = people.map(function (person) {
+      return person.split(', ');
+    });
+    // console.log(newPeopleArray);
+
+    let sort_3 = newPeopleArray.sort(function (a, b) {
+      return a[1] > b[1] ? 1 : -1;
+    })
+    // console.table(sort_3);
+
     // 8. Reduce Exercise
     // Sum up the instances of each of these
-    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck'];
 
+    var reduce_2 = data.reduce(function (object, item) {
+      if (!object[item]) { //如果物件不存在 創造新物件
+        object[item] = 0;
+
+      }
+      // console.log(object);
+      object[item]++
+      return object
+
+    }, {})
+    console.log(reduce_2);
+
+    var names = ['Alice', 'Bob', 'Tiff', 'Bruce', 'Alice'];
+
+    var countedNames = names.reduce(function (allNames, name) {
+      if (name in allNames) {
+        allNames[name]++;
+      }
+      else {
+        allNames[name] = 1;
+      }
+      return allNames;
+    }, {});
+    console.log(countedNames);
+
+    var countedNames_2 = names.reduce(function (obj, e) {
+      if (!obj[e]) {
+        obj[e] = 1
+      } else {
+        obj[e]++;
+      }
+      //return要寫在if else外面
+      return obj;
+    }, {})
+    console.log(countedNames_2);
   </script>
 </body>
+
 </html>
