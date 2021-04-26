@@ -1,12 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Key Detection</title>
   <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
 </head>
+
 <body>
-<script>
-</script>
+  <script>
+    const pressed = [];
+    //設定秘密字串
+    const secretCode = 'bonus';
+
+
+    window.addEventListener('keyup', (e) => {
+
+      pressed.push(e.key);
+
+      //裁切輸入之後的陣列 使其長度符合秘密字串
+      //陣列需取後面的值
+      //-secretCode.length代表由後方算起 到符合長度的那個數值 -1是為了從前一位數起
+      //後方表示被刪除的位數（全長減去需要的字串長度）
+      pressed.splice(- secretCode.length - 1, pressed.length - secretCode.length)
+
+
+      //join可將陣列轉換為字串
+      //偵測輸入的字串是否符合秘密字串內容
+      if (pressed.join('').includes(secretCode)) {
+        //產生隨機獨角獸（外連的js函式）
+        cornify_add()
+      }
+
+
+
+
+    })
+
+  </script>
 </body>
+
 </html>
