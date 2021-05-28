@@ -1,9 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Understanding JavaScript's Capture</title>
+  <style>
+    html {
+      box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    div {
+      width: 100%;
+      padding: 100px;
+    }
+
+    .one {
+      background: thistle;
+    }
+
+    .two {
+      background: mistyrose;
+    }
+
+    .three {
+      background: coral;
+    }
+  </style>
 </head>
+
 <body class="bod">
 
   <div class="one">
@@ -13,36 +43,30 @@
     </div>
   </div>
 
-<style>
-  html {
-    box-sizing: border-box;
-  }
-  
-  *, *:before, *:after { 
-    box-sizing: inherit; 
-  }
 
-  div {
-    width: 100%;
-    padding: 100px;
-  }
 
-  .one {
-    background: thistle;
-  }
+  <button class="btn"></button>
+  <script>
+    const divs = document.querySelectorAll('div')
+    const button = document.querySelector('button')
 
-  .two {
-    background: mistyrose;
-  }
+    function logText(e) {
+      //點擊子層的時候 父層也會同時有onclick效果
+      console.log(this.classList.value);
 
-  .three {
-    background: coral;
-  }
-</style>
+      //防止點擊向外傳 只發生在被點的物件上
+      //若capture為true 則停留在最外層物件上
+      e.stopPropagation();
 
-<button></button>
-<script>
-
-</script>
+    }
+    divs.forEach(element => element.addEventListener('click', logText, {
+      capture: false //為true的話 捕捉的順序由父層向子層
+    }));
+    button.addEventListener('click', logText, {
+      once: true
+      //once為true的話 只會被觸發一次 可防止重複點擊
+    })
+  </script>
 </body>
+
 </html>

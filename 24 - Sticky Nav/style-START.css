@@ -24,7 +24,9 @@ body {
   transform: scale(0.98);
   transition: transform 0.5s;
 }
-
+#main.sticky~.site-wrap{
+  transform: scale(1);
+}
 header {
   text-align: center;
   height: 50vh;
@@ -56,6 +58,11 @@ nav ul {
   list-style: none;
   display: flex;
 }
+nav.sticky{
+  position: fixed;
+  top: 0%;
+  box-shadow: 0 5px rgba(0, 0, 0, 0.1);
+}
 
 nav li {
   flex: 1;
@@ -72,6 +79,9 @@ li.logo {
   transition: all .5s;
   font-weight: 600;
   font-size: 30px;
+}
+#main.sticky li.logo{
+  max-width: 300px;
 }
 
 li.logo a {

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Videos</title>
 </head>
+
 <body>
   <ul class="videos">
     <li data-time="5:43">
@@ -181,7 +183,27 @@
       Video 58
     </li>
   </ul>
-<script>
-</script>
+  <script>
+    const timeNodes = [...document.querySelectorAll('[data-time]')]
+
+    const seconds = timeNodes.map(node => node.dataset.time).map(timeCode => {
+      //將拆開的文字列轉換為數字
+      const [mins, secs] = timeCode.split(':').map(parseFloat);
+      return mins * 60 + secs;
+    }).reduce((total, e) => total + e);
+
+    let secondsLeft = seconds;
+    const hour = Math.floor(secondsLeft / 3600);
+    //%可求餘數
+    secondsLeft = secondsLeft % 3600;
+    const min = Math.floor(secondsLeft / 60);
+    secondsLeft = secondsLeft % 60;
+    const sec = secondsLeft
+
+    let total_time = [hour, min, sec]
+    console.log(total_time);
+
+  </script>
 </body>
+
 </html>
